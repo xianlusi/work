@@ -168,16 +168,19 @@ def _run_edit(args: argparse.Namespace) -> int:
 
     if args.command == "resize":
         result = resize_image(image, args.width, args.height)
-        _save_result(args, result, "resized")
+        # 默认文件名带上目标尺寸，连续缩放不同尺寸时不会互相覆盖
+        _save_result(args, result, f"{result.width}x{result.height}")
     elif args.command == "crop":
         result = crop_image(image, args.left, args.top, args.right, args.bottom)
-        _save_result(args, result, "cropped")
+        _save_result(
+            args, result, f"cropped_{args.left}_{args.top}_{args.right}_{args.bottom}"
+        )
     elif args.command == "rotate":
         result = rotate_image(image, args.angle)
-        _save_result(args, result, "rotated")
+        _save_result(args, result, f"rotated_{args.angle}")
     elif args.command == "flip":
         result = flip_image(image, args.direction)
-        _save_result(args, result, "flipped")
+        _save_result(args, result, f"flipped_{args.direction}")
     elif args.command == "gray":
         if image.mode in ("L", "1", "I", "I;16", "F"):
             print("提示：原图已经是灰度图，将保存一份副本。")
