@@ -39,6 +39,17 @@ class ReadInfoTests(unittest.TestCase):
         self.assertEqual(info.mode, "RGBA")
         self.assertIn("透明通道", info.mode_text)
 
+    def test_exif_orientation_is_reported(self) -> None:
+        path = self.root / "phone.jpg"
+        exif = Image.Exif()
+        exif[0x0112] = 6  # 顺时针旋转 90°
+        make_rgb(100, 50).save(path, exif=exif)
+
+        info = read_image_info(path)
+
+        self.assertEqual(info.orientation, 6)
+        self.assertIn("顺时针旋转 90°", info.orientation_text)
+
     def test_missing_file(self) -> None:
         with self.assertRaises(ImageToolError):
             read_image_info(self.root / "missing.jpg")
