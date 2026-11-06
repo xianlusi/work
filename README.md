@@ -35,7 +35,7 @@
 uv sync
 ```
 
-首次执行会创建 `.venv` 虚拟环境、安装依赖，并生成 `uv.lock` 锁定文件。
+首次执行会创建 `.venv` 虚拟环境，并按 `uv.lock` 中锁定的版本安装依赖；`uv.lock` 已随仓库提供，可保证不同机器安装到相同的依赖版本。
 
 ### 方式二：使用 pip
 
@@ -71,6 +71,8 @@ python run.py --help
 | 免安装脚本 | `python run.py` | 已安装 Pillow |
 | uv | `uv run imagetool` | 已执行 `uv sync` |
 | pip 安装 | `imagetool` | 已执行 `pip install -e .` |
+
+如果 `uv run imagetool` 无法启动（个别电脑会拦截新生成的程序），可改用 `uv run python -m imagetool`，参数完全相同。
 
 下文示例统一使用 `python run.py`。仓库自带两张示例图片：
 
@@ -269,7 +271,7 @@ image-tool/
 python -m unittest discover -s tests -t . -v
 ```
 
-共有 48 个测试用例，覆盖信息读取、缩放比例、裁剪边界、旋转方向、翻转、灰度化、透明通道转 JPG、防覆盖和命令行提示。
+共有 49 个测试用例，覆盖信息读取、缩放比例、裁剪边界、旋转方向、翻转、灰度化、透明通道转 JPG、EXIF 方向、防覆盖和命令行提示。
 
 如果使用 uv：
 
