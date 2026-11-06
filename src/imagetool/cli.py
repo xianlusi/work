@@ -140,6 +140,14 @@ def _load_for_edit(path: str) -> Image.Image:
     return oriented
 
 
+def _display_path(path: Path) -> str:
+    """输出路径尽量显示为相对当前目录的形式，便于阅读。"""
+    try:
+        return str(path.relative_to(Path.cwd()))
+    except ValueError:
+        return str(path)
+
+
 def _save_result(
     args: argparse.Namespace,
     image: Image.Image,
@@ -149,7 +157,7 @@ def _save_result(
     """保存编辑结果，并打印保存位置与新尺寸。"""
     output = args.output or default_output_path(args.image, suffix, extension)
     saved = save_image(image, output, source_path=args.image, force=args.force)
-    print(f"已保存：{saved}")
+    print(f"已保存：{_display_path(saved)}")
     print(f"尺寸：{image.width} × {image.height} 像素（原图未修改）")
     return saved
 
@@ -185,7 +193,7 @@ def _run_edit(args: argparse.Namespace) -> int:
         output = args.output or source.with_suffix(ext)
         result = image
         saved = save_image(result, output, source_path=args.image, force=args.force)
-        print(f"已保存：{saved}")
+        print(f"已保存：{_display_path(saved)}")
         print(f"尺寸：{result.width} × {result.height} 像素（原图未修改）")
     else:
         raise ImageToolError(f"未知命令：{args.command}")
