@@ -42,7 +42,7 @@ class CliTests(unittest.TestCase):
     def test_resize_writes_default_name(self) -> None:
         code, out, _ = self.run_cli("resize", str(self.source), "-w", "100")
         self.assertEqual(code, 0)
-        target = self.root / "demo_resized.jpg"
+        target = self.root / "demo_100x50.jpg"
         self.assertTrue(target.exists())
         self.assertIn(str(target.resolve()), out)
         with Image.open(target) as image:

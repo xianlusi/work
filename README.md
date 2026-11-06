@@ -105,9 +105,11 @@ python run.py resize samples/demo.jpg --width 320
 ```
 
 ```text
-已保存：samples\demo_resized.jpg
+已保存：samples\demo_320x240.jpg
 尺寸：320 × 240 像素（原图未修改）
 ```
+
+只给高度时，默认文件名同样带上计算后的尺寸，例如 `demo_160x120.jpg`，连续缩放不同尺寸不会互相覆盖。
 
 只给高度：
 
@@ -136,7 +138,7 @@ python run.py crop samples/demo.jpg -l 40 -t 40 -r 600 -b 440
 ```
 
 ```text
-已保存：samples\demo_cropped.jpg
+已保存：samples\demo_cropped_40_40_600_440.jpg
 尺寸：560 × 400 像素（原图未修改）
 ```
 
@@ -156,15 +158,15 @@ python run.py rotate samples/demo.jpg --angle 90
 ```
 
 ```text
-已保存：samples\demo_rotated.jpg
+已保存：samples\demo_rotated_90.jpg
 尺寸：480 × 640 像素（原图未修改）
 ```
 
 ### 3.5 翻转
 
 ```bash
-python run.py flip samples/demo.jpg --direction horizontal   # 左右镜像
-python run.py flip samples/demo.jpg --direction vertical     # 上下镜像
+python run.py flip samples/demo.jpg --direction horizontal   # 左右镜像，输出 demo_flipped_horizontal.jpg
+python run.py flip samples/demo.jpg --direction vertical     # 上下镜像，输出 demo_flipped_vertical.jpg
 ```
 
 ### 3.6 灰度化
@@ -204,7 +206,7 @@ python run.py convert samples/demo.jpg --format png
 
 | 参数 | 作用 |
 | --- | --- |
-| `-o` / `--output` | 指定输出文件路径；不指定时保存在原图旁边，文件名加 `_resized`、`_cropped` 等后缀 |
+| `-o` / `--output` | 指定输出文件路径；不指定时保存在原图旁边，文件名包含操作与参数，例如 `demo_320x240.jpg`、`demo_rotated_90.jpg`、`demo_cropped_40_40_600_440.jpg` |
 | `--force` | 输出文件已存在时覆盖；不加该参数会提示并退出，防止误覆盖 |
 | `-h` / `--help` | 查看帮助，例如 `python run.py crop --help` |
 
